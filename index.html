@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylo - E-Commerce</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: rgb(235, 244, 250);
+        }
+
+        .navbar {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background-color: rgb(154, 174, 187) !important;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #007bff !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #007bff;
+        }
+
+        /* Page transition system */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Carousel Styles */
+        .carousel-item {
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .carousel-item img {
+            height: 550px;
+            object-fit: cover;
+            filter: brightness(0.8);
+        }
+
+        
+
+        @media (max-width: 768px) {
+            .carousel-item img {
+                width: 95%;
+                padding-top: 30px;
+            }
+
+            .carousel-item img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel-item imgr {
+                width: 100%;
+                padding-top: 20px;
+            }
+
+            .carousel-item img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            bottom: 3rem;
+        }
+
+        .carousel-caption h1,
+        .carousel-caption .lead {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            border: none;
+            border-radius: 1rem;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            /* Ensures image corners are rounded */
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-card img {
+            height: 280px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .product-card .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Wishlist button on product card */
+        .btn-wishlist {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #eee;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-wishlist:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #00c7ff);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Product Detail Page Styles */
+        #product-detail-page img {
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 1rem;
+        }
+
+        /* Make image container responsive */
+        @media (max-width: 768px) {
+            #product-detail-page img {
+                max-height: 300px;
+            }
+        }
+
+        /* Form Container Styles */
+        .form-container {
+            max-width: 500px;
+            margin: 4rem auto;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, .25);
+            border-color: #80bdff;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Cart Styles */
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: 0px;
+            right: -5px;
+            font-size: 0.75em;
+            padding: .3em .5em;
+        }
+
+        .modal-content {
+            border-radius: 1rem;
+        }
+
+        /* About Us Page Styles */
+        #about-page .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #about-page .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Checkout Page Styles */
+        .order-summary {
+            background-color: #f8f9fa;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home-page')">
+                <i class="bi bi-vector-pen"></i> Stylo
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showPage('home-page', this)">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('products-page', this)">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('about-page', this)">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('contact-page', this)">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="nav-link me-3" onclick="showPage('login-page', this)">Login</a>
+                    <a href="#" class="btn btn-outline-danger position-relative me-3"
+                        onclick="showPage('wishlist-page', this)">
+                        <i class="bi bi-heart"></i>
+                        <span id="wishlist-count-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
+                    </a>
+                    <button class="btn btn-outline-primary position-relative" data-bs-toggle="modal"
+                        data-bs-target="#cartModal">
+                        <i class="bi bi-cart3"></i>
+                        <span id="cart-count-badge" class="badge rounded-pill bg-danger cart-badge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5">
+
+        <!-- Home Page -->
+        <div id="home-page" class="page active">
+            <!-- Image Slider -->
+            <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="Slider-1.jpg" class="d-block w-100" alt="New Arrivals">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Slider-2.jpg" class="d-block w-100" alt="Summer Collection">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Slider-3.jpg" class="d-block w-100" alt="Flash Sale">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <h2 class="text-center mb-4">Featured Products</h2>
+            <div id="home-products-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <!-- Featured products will be dynamically inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Products Page -->
+        <div id="products-page" class="page">
+            <h2 class="text-center mb-4">Our Collection</h2>
+            <div id="all-products-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <!-- All products will be dynamically inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Product Detail Page -->
+        <div id="product-detail-page" class="page">
+            <div class="container">
+                <button class="btn btn-outline-secondary mb-4" onclick="showPage('products-page')"><i
+                        class="bi bi-arrow-left"></i> Back to Products</button>
+                <div id="product-detail-content" class="row">
+                    <!-- Product details will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist Page -->
+        <div id="wishlist-page" class="page">
+            <h2 class="text-center mb-4">Your Wishlist</h2>
+            <div id="wishlist-grid" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <!-- Liked products will be dynamically inserted here -->
+            </div>
+            <p id="wishlist-empty-message" class="text-center text-muted fs-5 mt-5" style="display: none;">Your wishlist
+                is empty. Start adding products you love!</p>
+        </div>
+
+        <!-- Checkout Page -->
+        <div id="checkout-page" class="page">
+            <h2 class="text-center mb-4">Checkout</h2>
+            <div class="row g-5">
+                <!-- Shipping and Payment Form -->
+                <div class="col-md-7 col-lg-8">
+                    <h4 class="mb-3">Billing address</h4>
+                    <form id="checkout-form" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="firstName" class="form-label">First name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <div class="invalid-feedback">Valid first name is required.</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="lastName" class="form-label">Last name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                <div class="invalid-feedback">Valid last name is required.</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                    required>
+                                <div class="invalid-feedback">Please enter a valid email address for shipping updates.
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+                                    required>
+                                <div class="invalid-feedback">Please enter your shipping address.</div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">Payment</h4>
+                        <div class="my-3">
+                            <div class="form-check">
+                                <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked
+                                    required>
+                                <label class="form-check-label" for="credit">Credit card</label>
+                            </div>
+                            <div class="form-check">
+                                <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+                                <label class="form-check-label" for="debit">Debit card</label>
+                            </div>
+                            <div class="form-check">
+                                <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+                                <label class="form-check-label" for="paypal">PayPal</label>
+                            </div>
+                        </div>
+
+                        <div class="row gy-3">
+                            <div class="col-md-6">
+                                <label for="cc-name" class="form-label">Name on card</label>
+                                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                <small class="text-muted">Full name as displayed on card</small>
+                                <div class="invalid-feedback">Name on card is required</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cc-number" class="form-label">Card number</label>
+                                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                <div class="invalid-feedback">Credit card number is required</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="cc-expiration" class="form-label">Expiration</label>
+                                <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" required>
+                                <div class="invalid-feedback">Expiration date required</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="cc-cvv" class="form-label">CVV</label>
+                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                <div class="invalid-feedback">Security code required</div>
+                            </div>
+                        </div>
+                        <hr class="my-4">
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Place Order</button>
+                    </form>
+                </div>
+                <!-- Order Summary -->
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Your cart</span>
+                        <span class="badge bg-primary rounded-pill" id="checkout-cart-count">0</span>
+                    </h4>
+                    <ul class="list-group mb-3" id="checkout-order-summary">
+                        <!-- Order summary items will be injected here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- About Us Page -->
+        <div id="about-page" class="page">
+            <div class="container py-5">
+                <div class="row text-center mb-5">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="display-4">About Stylo</h1>
+                        <p class="lead text-muted mb-0">Discover the story behind our passion for fashion and quality.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-5 align-items-center">
+                    <div class="col-lg-6">
+                        <h2 class="h3 mb-3">Our Story</h2>
+                        <p class="text-muted">Founded in 2025, Stylo was born from a simple idea: to bring high-quality,
+                            stylish, and affordable fashion to everyone. We noticed a gap in the market for apparel that
+                            was both on-trend and built to last. We started as a small online boutique, curating
+                            collections that we loved, and thanks to our wonderful customers, we've grown into a
+                            recognized brand known for our commitment to style and quality.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="about-1.jpg" class="img-fluid rounded shadow-sm" alt="Our Story">
+                    </div>
+                </div>
+
+                <div class="row mb-5 align-items-center">
+                    <div class="col-lg-6 order-lg-2">
+                        <h2 class="h3 mb-3">Our Mission</h2>
+                        <p class="text-muted">Our mission is to empower individuals to express their unique style
+                            through our diverse collections. We believe that fashion is a form of self-expression, and
+                            we strive to provide pieces that make you feel confident and comfortable in your own skin.
+                            We are dedicated to ethical sourcing, sustainable practices, and creating a positive impact
+                            on the fashion industry and our community.</p>
+                    </div>
+                    <div class="col-lg-6 order-lg-1">
+                        <img src="about-2.jpg" class="img-fluid rounded shadow-sm" alt="Our Mission">
+                    </div>
+                </div>
+
+                <div class="row text-center">
+                    <div class="col-12">
+                        <h2 class="h3 mb-5">Meet Our Team</h2>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://placehold.co/200x200/CCCCCC/000000?text=Shreyansh+Bhaliya"
+                                class="card-img-top rounded-circle w-50 mx-auto mt-4" alt="Team Member 1">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Shreyansh Bhaliya</h5>
+                                <p class="text-muted small">CEO & Founder</p>
+                                <p class="card-text small">Shreyansh is the visionary behind Stylo, with a passion for
+                                    design and an eye for the latest trends.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://placehold.co/200x200/CCCCCC/000000?text=John+Smith"
+                                class="card-img-top rounded-circle w-50 mx-auto mt-4" alt="Team Member 2">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">John Smith</h5>
+                                <p class="text-muted small">Head of Operations</p>
+                                <p class="card-text small">John ensures that everything behind the scenes runs smoothly,
+                                    from logistics to customer service.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card border-0 shadow-sm h-100">
+                            <img src="https://placehold.co/200x200/CCCCCC/000000?text=Emily+White"
+                                class="card-img-top rounded-circle w-50 mx-auto mt-4" alt="Team Member 3">
+                            <div class="card-body text-center">
+                                <h5 class="card-title mb-1">Emily White</h5>
+                                <p class="text-muted small">Creative Director</p>
+                                <p class="card-text small">Emily leads our creative team, curating the stunning
+                                    collections you see on our site.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="form-container">
+                <h2 class="text-center mb-4">Welcome Back</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Contact Us Page -->
+        <div id="contact-page" class="page">
+            <div class="form-container">
+                <h2 class="text-center mb-4">Contact Us</h2>
+                <p class="text-center text-muted mb-4">We'd love to hear from you. Fill out the form below.</p>
+                <form id="contact-form">
+                    <div class="mb-3">
+                        <label for="contactName" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="contactName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Your Email</label>
+                        <input type="email" class="form-control" id="contactEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactMessage" class="form-label">Message</label>
+                        <textarea class="form-control" id="contactMessage" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-2">&copy; 2025 Stylo. All Rights Reserved.</p>
+            <div>
+                <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-white mx-2"><i class="bi bi-twitter"></i></a>
+            </div>
+
+            <p class="mt-3"><a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of
+                    Service</a></p>
+
+            <p class="text-muted small">
+            <p style="color: rgb(174, 175, 164);"> Designed by Shreyansh Bhaliya </p>
+            <p class="text-muted small">
+            <p style="color: rgb(174, 175, 164);"> Email:Stylo@gmail.com </p>
+            <p class="text-muted small">
+            <p style="color: rgb(174, 175, 164);"> Contact No:1234567890 </p>
+            <p class="text-muted small">
+            <p style="color: rgb(174, 175, 164);"> Address: Marwadi University, Morbi Road, Rajkot, Gujarat </p>
+
+        </div>
+    </footer>
+
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="cartModalLabel">Your Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cart-items-container">
+                        <!-- Cart items will be dynamically inserted here -->
+                    </div>
+                    <p id="cart-empty-message" class="text-center text-muted">Your cart is currently empty.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <h5 class="me-auto">Total: <span id="cart-total-price">₹0.00</span></h5>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary" id="checkout-btn" disabled>Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toast-message">
+                    Item added to cart successfully.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- DYNAMIC DATA ---
+        // In a real application, this would come from a server API
+        const products = [
+            { id: 1, name: 'Urban Explorer Jacket', price: 3500, image: 'i-1.jpeg', description: 'A stylish and durable jacket, perfect for city life and outdoor adventures. Water-resistant and breathable material.' },
+            { id: 2, name: 'Minimalist Chrono Watch', price: 2000, image: 'i-2.jpg', description: 'A timeless timepiece with a modern twist. Features a stainless steel case, leather strap, and precise chronograph movement.' },
+            { id: 3, name: 'Premium Leather Sneakers', price: 2500, image: 'i-3.jpg', description: 'Crafted from genuine leather, these sneakers offer supreme comfort and a sleek, versatile look for any occasion.' },
+            { id: 4, name: 'Designer Aviator Sunglasses', price: 1200, image: 'i-4.jpeg', description: 'Protect your eyes with style. These aviator sunglasses feature polarized lenses and a lightweight metal frame.' },
+            { id: 5, name: 'Slim Fit Performance Jeans', price: 2200, image: 'i-5.jpeg', description: 'The perfect blend of style and comfort. These chinos are made with stretch fabric for easy movement throughout your day.' },
+            { id: 6, name: 'Italian Silk Tie', price: 800, image: 'i-6.jpg', description: 'Add a touch of elegance to your formal wear with this luxurious tie, handcrafted from the finest Italian silk.' },
+            { id: 7, name: 'Canvas & Leather Messenger Bag', price: 1800, image: 'i-7.jpg', description: 'A functional and fashionable bag for the modern professional. Features a padded laptop compartment and multiple pockets.' },
+            { id: 8, name: 'Cashmere Wool Scarf', price: 500, image: 'i-8.jpeg', description: 'Stay warm and stylish with this incredibly soft scarf, woven from a premium blend of cashmere and merino wool.' },
+            { id: 9, name: 'Men luxury Formal Shirt ', price: 2200, image: 'i-9.jpg', description: 'Men Bright White and Mulled Haze Blue Striped Royel Oxford Shirt.' },
+            { id: 10, name: 'Mens Lether Wallet', price: 700, image: 'i-10.jpg', description: 'Allen Solly Men Taxtured Leather Formal Wallet with 1 main compartment, 2 card holder, 1slip pocket.' },
+            { id: 11, name: 'Mens Luxury Lether Belt', price: 900, image: 'i-11.jpg', description: 'Halden luxury No-Hole Belt Theo Brown with Classic Buckle .' },
+            { id: 12, name: 'Mens Polo Tshirt', price: 1800, image: 'i-12.jpg', description: 'Mast & Harbour Mens Striped Polo Collar Relexed Fit Tshirt.' },
+
+        ];
+
+        // State management
+        let cart = [];
+        let wishlist = [];
+        let cartModalInstance; // To control the cart modal instance
+
+        // --- CORE FUNCTIONS ---
+
+        /**
+         * Shows a specific page and hides others.
+         * @param {string} pageId The ID of the page element to show.
+         * @param {HTMLElement} navElement The clicked navigation link element.
+         */
+        function showPage(pageId, navElement = null) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            const pageToShow = document.getElementById(pageId);
+            if (pageToShow) pageToShow.classList.add('active');
+
+            // Update active state on nav links
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            // Also remove active state from any buttons that might have it
+            document.querySelectorAll('.navbar .btn').forEach(btn => btn.classList.remove('active'));
+
+            if (navElement) {
+                navElement.classList.add('active');
+            } else {
+                // If no nav element is passed (e.g., clicking logo), find the corresponding link
+                const correspondingLink = document.querySelector(`.nav-link[onclick*="'${pageId}'"]`);
+                if (correspondingLink) correspondingLink.classList.add('active');
+            }
+
+            // If we are showing the wishlist, make sure its content is up to date.
+            if (pageId === 'wishlist-page') {
+                renderWishlistPage();
+            }
+
+            window.scrollTo(0, 0); // Scroll to top on page change
+        }
+
+        /**
+         * Shows a toast notification.
+         * @param {string} message The message to display.
+         * @param {string} type The type of toast ('success', 'danger', etc.)
+         */
+        function showToast(message, type = 'success') {
+            const toastEl = document.getElementById('successToast');
+            const toastBody = document.getElementById('toast-message');
+            toastBody.textContent = message;
+
+            // Adjust toast color based on type
+            toastEl.classList.remove('bg-success', 'bg-danger', 'bg-info');
+            toastEl.classList.add(`bg-${type}`);
+
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        // --- PRODUCT RENDERING ---
+
+        /**
+         * Renders all product cards into their respective containers.
+         */
+        function renderProducts() {
+            const homeGrid = document.getElementById('home-products-grid');
+            const allProductsGrid = document.getElementById('all-products-grid');
+
+            if (homeGrid) homeGrid.innerHTML = '';
+            if (allProductsGrid) allProductsGrid.innerHTML = '';
+
+            // Render 4 featured products on home page
+            if (homeGrid) {
+                products.slice(0, 4).forEach(product => {
+                    homeGrid.innerHTML += createProductCardHTML(product);
+                });
+            }
+
+            // Render all products on products page
+            if (allProductsGrid) {
+                products.forEach(product => {
+                    allProductsGrid.innerHTML += createProductCardHTML(product);
+                });
+            }
+        }
+
+        /**
+         * Creates the HTML string for a single product card.
+         * @param {object} product The product object.
+         * @returns {string} The HTML string for the product card.
+         */
+        function createProductCardHTML(product) {
+            const isInWishlist = wishlist.includes(product.id);
+            const heartIconClass = isInWishlist ? 'bi-heart-fill text-danger' : 'bi-heart';
+            return `
+                <div class="col">
+                    <div class="card h-100 product-card">
+                        <div class="position-relative">
+                             <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/280x280/CCCCCC/000000?text=Image+Not+Found';" onclick="showProductDetail(${product.id})">
+                             <button class="btn btn-wishlist position-absolute top-0 end-0 m-2 rounded-circle" style="padding: 0.5rem 0.7rem;" onclick="event.stopPropagation(); toggleWishlist(${product.id})">
+                                <i class="bi ${heartIconClass}"></i>
+                            </button>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text text-muted h5 mb-3">₹${product.price.toFixed(2)}</p>
+                            <button class="btn btn-primary mt-auto" onclick="addToCart(${product.id})">
+                                <i class="bi bi-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Renders the detailed view for a single product.
+         * @param {number} productId The ID of the product to show.
+         */
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const isInWishlist = wishlist.includes(product.id);
+            const heartIconClass = isInWishlist ? 'bi-heart-fill' : 'bi-heart';
+            const wishlistBtnText = isInWishlist ? 'In Wishlist' : 'Add to Wishlist';
+
+            const content = document.getElementById('product-detail-content');
+            content.innerHTML = `
+                <div class="col-md-6 text-center">
+                    <img src="${product.image}" class="img-fluid rounded shadow-sm" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/500x500/CCCCCC/000000?text=Image+Not+Found';">
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center mt-4 mt-md-0">
+                    <h2 class="display-5">${product.name}</h2>
+                    <p class="lead text-muted">${product.description}</p>
+                    <h3 class="my-3 display-6">₹${product.price.toFixed(2)}</h3>
+                    <div class="d-grid gap-2 d-sm-flex">
+                        <button class="btn btn-primary btn-lg" onclick="addToCart(${product.id})">
+                            <i class="bi bi-cart-plus-fill"></i> Add to Cart
+                        </button>
+                         <button class="btn btn-outline-danger btn-lg" onclick="toggleWishlist(${product.id})">
+                            <i class="bi ${heartIconClass}"></i> ${wishlistBtnText}
+                        </button>
+                    </div>
+                </div>
+            `;
+            showPage('product-detail-page');
+        }
+
+        // --- CART MANAGEMENT ---
+
+        /**
+         * Adds a product to the cart or increments its quantity.
+         * @param {number} productId The ID of the product to add.
+         */
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`${product.name} was added to your cart!`);
+        }
+
+        /**
+         * Removes an item completely from the cart.
+         * @param {number} productId The ID of the product to remove.
+         */
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        /**
+         * Updates all parts of the UI related to the cart.
+         */
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items-container');
+            const cartEmptyMsg = document.getElementById('cart-empty-message');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (cartContainer) cartContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                if (cartEmptyMsg) cartEmptyMsg.style.display = 'block';
+                if (checkoutBtn) checkoutBtn.disabled = true;
+            } else {
+                if (cartEmptyMsg) cartEmptyMsg.style.display = 'none';
+                if (checkoutBtn) checkoutBtn.disabled = false;
+                cart.forEach(item => {
+                    if (cartContainer) {
+                        cartContainer.innerHTML += `
+                            <div class="d-flex align-items-center mb-3 cart-item">
+                                <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/80x80/CCCCCC/000000?text=Image+Not+Found';">
+                                <div class="ms-3 flex-grow-1">
+                                    <h6 class="mb-0">${item.name}</h6>
+                                    <small class="text-muted">Qty: ${item.quantity}</small>
+                                </div>
+                                <span class="fw-bold me-3">₹${(item.price * item.quantity).toFixed(2)}</span>
+                                <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+                });
+            }
+
+            // Update cart count badge
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count-badge').textContent = totalItems;
+
+            // Update total price in cart modal
+            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            document.getElementById('cart-total-price').textContent = `₹${totalPrice.toFixed(2)}`;
+
+            // Update checkout page summary
+            renderCheckoutSummary();
+        }
+
+        // --- WISHLIST MANAGEMENT ---
+
+        /**
+         * Toggles a product's presence in the wishlist.
+         * @param {number} productId The ID of the product to toggle.
+         */
+        function toggleWishlist(productId) {
+            const productIndex = wishlist.indexOf(productId);
+            const product = products.find(p => p.id === productId);
+
+            if (productIndex > -1) {
+                wishlist.splice(productIndex, 1); // Remove from wishlist
+                showToast(`${product.name} removed from wishlist.`, 'info');
+            } else {
+                wishlist.push(productId); // Add to wishlist
+                showToast(`${product.name} added to wishlist!`);
+            }
+
+            updateWishlistUI();
+            renderProducts(); // Re-render products to update all heart icons
+
+            // If the detail page is currently active, re-render it as well
+            const detailPage = document.getElementById('product-detail-page');
+            if (detailPage.classList.contains('active')) {
+                showProductDetail(productId);
+            }
+        }
+
+        /**
+         * Updates all UI elements related to the wishlist.
+         */
+        function updateWishlistUI() {
+            document.getElementById('wishlist-count-badge').textContent = wishlist.length;
+            renderWishlistPage();
+        }
+
+        /**
+         * Renders the products in the wishlist page.
+         */
+        function renderWishlistPage() {
+            const wishlistGrid = document.getElementById('wishlist-grid');
+            const emptyMessage = document.getElementById('wishlist-empty-message');
+
+            if (!wishlistGrid || !emptyMessage) return;
+
+            wishlistGrid.innerHTML = ''; // Clear previous content
+
+            if (wishlist.length === 0) {
+                emptyMessage.style.display = 'block';
+            } else {
+                emptyMessage.style.display = 'none';
+                const likedProducts = products.filter(p => wishlist.includes(p.id));
+                likedProducts.forEach(product => {
+                    wishlistGrid.innerHTML += createProductCardHTML(product);
+                });
+            }
+        }
+
+
+        // --- CHECKOUT FUNCTIONS ---
+
+        function showCheckoutPage() {
+            if (cartModalInstance) {
+                cartModalInstance.hide();
+            }
+            renderCheckoutSummary();
+            showPage('checkout-page');
+        }
+
+        function renderCheckoutSummary() {
+            const summaryContainer = document.getElementById('checkout-order-summary');
+            const checkoutCartCount = document.getElementById('checkout-cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            if (checkoutCartCount) checkoutCartCount.textContent = totalItems;
+            if (summaryContainer) {
+                summaryContainer.innerHTML = ''; // Clear previous items
+                cart.forEach(item => {
+                    summaryContainer.innerHTML += `
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">${item.name} (x${item.quantity})</h6>
+                                <small class="text-muted">Brief description</small>
+                            </div>
+                            <span class="text-muted">₹${(item.price * item.quantity).toFixed(2)}</span>
+                        </li>
+                    `;
+                });
+                summaryContainer.innerHTML += `
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (INR)</span>
+                        <strong>₹${totalPrice.toFixed(2)}</strong>
+                    </li>
+                `;
+            }
+        }
+
+        // --- INITIALIZATION AND EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+            updateWishlistUI();
+
+            // Get cart modal instance
+            const cartModalEl = document.getElementById('cartModal');
+            if (cartModalEl) {
+                cartModalInstance = new bootstrap.Modal(cartModalEl);
+            }
+
+            // Checkout button in cart modal
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkoutBtn) checkoutBtn.addEventListener('click', showCheckoutPage);
+
+            // Handle Login form submission
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Login successfully!');
+                showPage('home-page');
+            });
+
+            // Handle Contact form submission
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('Thank you! Your message has been sent.');
+                e.target.reset();
+                showPage('home-page');
+            });
+
+            // Handle Checkout form submission and validation
+            const checkoutForm = document.getElementById('checkout-form');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', event => {
+                    event.preventDefault();
+                    if (!checkoutForm.checkValidity()) {
+                        event.stopPropagation();
+                    } else {
+                        // On successful validation
+                        showToast('Your order has been placed successfully!');
+                        cart = []; // Clear the cart
+                        updateCartUI();
+                        checkoutForm.reset();
+                        checkoutForm.classList.remove('was-validated');
+                        showPage('home-page');
+                    }
+                    checkoutForm.classList.add('was-validated');
+                }, false);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
